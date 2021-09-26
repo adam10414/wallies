@@ -14,4 +14,11 @@ This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you 
 ## Installation:
 - Clone/download this repo locally.
 - In a terminal window navigate to this dir and run: `pip install -r requirements.txt`
-- Set this script to run every time you turn on your computer!
+- Set this script to run every time you turn on your computer so you don't have to think about it again!
+
+
+## How to use:
+- Open a terminal or cmd window.
+- Navigate to the dir this program is stored in.
+- Run: `python3 fresh_wallies.py --apikey API_KEY_GOES_HERE`
+    - Alternatively you can run `python3 fresh_wallies.py -h` to see a help message.
