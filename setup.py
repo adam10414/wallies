@@ -79,3 +79,6 @@ elif args.apikey:
 
 else:
     API_KEY = set_api_key()
+
+# TODO:
+# Add a --dir arg to this script so the user can specify which dir they want to use. (Default is desktop.)
