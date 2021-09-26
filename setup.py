@@ -3,7 +3,7 @@
 import os, argparse, json
 
 
-def get_api_key():
+def read_api_key():
     """Fetches the API key currently stored. in the user-settings dir."""
 
     try:
@@ -12,14 +12,14 @@ def get_api_key():
                       "r") as preference_file:
                 preferences = json.load(preference_file)
 
-                return preferences
+                return preferences["api_key"]
 
     except FileNotFoundError:
         pass
 
 
-def write_api_key(key):
-    with open("./user-settings/preferences.json", "w") as preference_file:
+def write_api_key(key, file_path):
+    with open(file_path, "w") as preference_file:
         settings = {"api_key": key}
         json.dump(settings, preference_file)
 
@@ -30,7 +30,7 @@ def set_api_key():
     args = parser.parse_args()
 
     if args.apikey:
-        write_api_key(args.apikey)
+        write_api_key(args.apikey, "./user-settings/preferences.json")
         return args.apikey
 
     else:
@@ -45,13 +45,12 @@ def set_api_key():
                 "Are you sure you would like to proceed without an API key? (y/n):"
             )
 
-            if answer == "n":
-                write_api_key(None)
-                return "no_key"
-
             if answer == "y":
+                write_api_key(None, "./user-settings/preferences.json")
+
+            if answer == "n":
                 api_key = input("Copy and paste the API key here:")
-                write_api_key(api_key)
+                write_api_key(api_key, "./user-settings/preferences.json")
                 return api_key
 
 
@@ -70,15 +69,18 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if get_api_key() and not args.apikey:
-    API_KEY = get_api_key()
 
-elif args.apikey:
-    API_KEY = args.apikey
-    write_api_key(API_KEY)
+def get_api_key():
+    if read_api_key() and not args.apikey:
+        return read_api_key()
 
-else:
-    API_KEY = set_api_key()
+    elif args.apikey:
+        write_api_key(args.apikey, "./user-settings/preferences.json")
+        return args.apikey
+
+    else:
+        return set_api_key()
+
 
 # TODO:
 # Add a --dir arg to this script so the user can specify which dir they want to use. (Default is desktop.)

@@ -2,4 +2,6 @@
 
 import sys
 
-from setup import API_KEY
+from setup import get_api_key
+
+api_key = get_api_key()
