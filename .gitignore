@@ -1,1 +1,5 @@
-wallies
+.vscode
+.venv
+user-settings/preferences.json
+scratch.py
+__pycache__
