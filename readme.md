@@ -4,7 +4,7 @@ Welcome to Wallies! I've always wanted a light weight app that would pull in nic
 
 This app is intended to serve as a source for rotating wallpapers, and screensaver images. (If you set your wallpaper folder and screensaver folder to the same one.)
 
-This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you have an account there, this app will use your search preferences you have saved. (Given an API key.)
+This app will pull in wall papers from [here](https://wallhaven.cc/toplist). If you have an account there, this app will use your search preferences you have saved. (Given an API key.)
 
 
 ## Requirements:
