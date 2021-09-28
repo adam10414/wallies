@@ -20,14 +20,17 @@ This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you 
     - Windows:
         1. See [this page](https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10) for tips on scheduling this to run every day.
 
-    - MacOS:
-        1. Open a terminal window, and navigate to the directory of this script.
-        2. Type `sudo chmod u+x job.sh`.
-        3. Enter your password.
-        4. Click the Apple in the top left corner > System Preferences > Users & Groups > Click your profile > Login Items
-        5. Click the lock on the bottom left corner, and ensure it's unlocked. (You may need to enter your password.)
-        6. Click the + symbol > find the directory where this script lives.
-        7. Double click job.sh. (Or just single click it and then click Add.)
+    - MacOS: (Sorry for the long conveluted instructions. If you know a better way, please open an issue to bring it to my attention.)
+        1. Find the directory of this script.
+        2. Right click and open job.sh with the text editor of your choice.
+        3. Insert a line between `\#!/bin/sh` and `python3 fresh_wallies.py` and type in this relative path: `cd file/path/to/this/script/on/your/computer/`
+        4. Open a terminal window, and navigate to the directory of this script.
+        5. Type `sudo chmod u+x job.sh`.
+        6. Enter your password.
+        7. Click the Apple in the top left corner > System Preferences > Users & Groups > Click your profile > Login Items
+        8. Click the lock on the bottom left corner, and ensure it's unlocked. (You may need to enter your password.)
+        9. Click the + symbol > find the directory where this script lives.
+        10. Double click job.sh. (Or just single click it and then click Add.)
 
 
 ## How to use:
