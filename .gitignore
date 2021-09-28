@@ -2,4 +2,5 @@
 .venv
 user-settings/preferences.json
 scratch.py
+components/data
 __pycache__
