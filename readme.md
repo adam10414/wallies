@@ -8,13 +8,25 @@ This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you 
 
 
 ## Requirements:
-- Python 3.6+ installed on your machine.
+- [Python 3.6+](https://www.python.org/downloads/) installed on your machine.
 - You will likely want an account on https://wallhaven.cc/, and to save some custom search settings. These will be used when the script runs and pull in wall papers of your choosing.
 
 ## Installation:
 - Clone/download this repo locally.
 - In a terminal window navigate to this dir and run: `pip install -r requirements.txt`
-- Set this script to run every time you turn on your computer so you don't have to think about it again!
+- Run the program independently at least once, see "How to use" section below.
+- (Recommended) Set this script to run every time you turn on your computer so you don't have to think about it again!
+    - Windows:
+        1. See [this page](https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10) for tips on scheduling this to run every day.
+
+    - MacOS:
+        1. Open a terminal window, and navigate to the directory of this script.
+        2. Type `sudo chmod u+x job.sh`.
+        3. Enter your password.
+        4. Click the Apple in the top left corner > System Preferences > Users & Groups > Click your profile > Login Items
+        5. Click the lock on the bottom left corner, and ensure it's unlocked. (You may need to enter your password.)
+        6. Click the + symbol > find the directory where this script lives.
+        7. Double click job.sh. (Or just single click it and then click Add.)
 
 
 ## How to use:
@@ -24,8 +36,7 @@ This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you 
     - Alternatively you can run `python3 fresh_wallies.py -h` to see a help message.
 
 ## Notes:
-- This app will create a folder on your desktop labeled, "fresh_wallies" to store the wallpapers in.
-- It will create a sub-folder here labeled, "previous_wallpapers" in case you wanted to go back to any.
-- Every time the script runs, it will move all files from "fresh_wallies" to "previous_wallpapers", and then download a fresh set.
-- Moving "fresh_wallies" will break the program. To specifiy a new file path, run the script with the argument --dir.
-    - The new directory given to this argument will need to be an absolute filepath.
+- This app will create a folder on your desktop labeled, "wallies" to store the wallpapers in.
+    - If you already have a folder named wallies, then it will archive your current wallpapers. See next note.
+- It will create a sub-folder here labeled, "archive" in case you wanted to go back to any.
+- Every time the script runs, it will move all files from "wallies" to "archive", and then download a fresh set.
