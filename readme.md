@@ -15,6 +15,7 @@ This app will pull in wall papers from [here](https://wallhaven.cc/hot). If you 
 - Clone/download this repo locally.
 - In a terminal window navigate to this dir and run: `pip install -r requirements.txt`
 - Run the program independently at least once, see "How to use" section below.
+- (Recommended) (See Notes below) It's recommended to set your computer to rotate the wallpaper once every hour, and to set the wallpaper source folder to the folder this script produces on your desktop. If you see your desktop once / hour, it will last you 15 hours before it loops back again.
 - (Recommended) Set this script to run every time you turn on your computer so you don't have to think about it again!
     - Windows:
         1. See [this page](https://www.windowscentral.com/how-create-automated-task-using-task-scheduler-windows-10) for tips on scheduling this to run every day.
