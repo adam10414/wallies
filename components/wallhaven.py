@@ -55,14 +55,20 @@ class Wallhaven():
     def get_raw_search_results(self, search_page):
         parameters = self._parameters.copy()
         parameters["page"] = search_page
-        return requests.get(self._search_url, params=parameters)
+        return requests.get(self._search_url,
+                            params=parameters,
+                            headers={"Connection": "close"})
 
     def get_search_result_data(self, search_page):
 
         parameters = self._parameters.copy()
         parameters["page"] = search_page
 
-        return requests.get(self._search_url, params=parameters).json()["data"]
+        return requests.get(self._search_url,
+                            params=parameters,
+                            headers={
+                                "Connection": "close"
+                            }).json()["data"]
 
     def get_wallpaper_paths(self, search_data):
         """Downloads the specified number of wallpapers.
@@ -107,7 +113,9 @@ class Wallhaven():
 
         file_extension = wallie["path"][-4:]
         file_name = wallie["id"]
-        wallie_response = requests.get(wallie["path"], params=self._parameters)
+        wallie_response = requests.get(wallie["path"],
+                                       params=self._parameters,
+                                       headers={"Connection": "close"})
 
         with open(f"{self.desktop}/wallies/{file_name}{file_extension}",
                   "wb") as image_file:
@@ -118,18 +126,23 @@ class Wallhaven():
         ammount_of_wallies: int - not to exceed 15"""
 
         new_wallies = []
-        new_wallie_ids = []
         search_page = 1
 
         while len(new_wallies) < ammount_of_wallies:
             print(f"Searching page {search_page}")
-            search_data = self.get_search_result_data(search_page)
+            response = self.get_raw_search_results(search_page)
+
+            print(f"""
+            Satus: {response.status_code}
+            Headers = {response.headers}
+            """)
+
+            search_data = response.json()["data"]
 
             for wallie in search_data:
                 if wallie["id"] not in self.seen_wallie_ids and len(
                         new_wallies) < ammount_of_wallies:
                     new_wallies.append(wallie)
-                    new_wallie_ids.append(wallie["id"])
 
             search_page += 1
 
