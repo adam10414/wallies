@@ -1,6 +1,6 @@
 """This script will fetch the hot wallpapers from https://wallhaven.cc/hot"""
 
-import platform, os
+import sys
 
 from components.wallhaven import Wallhaven
 
@@ -19,3 +19,5 @@ wallhaven.update_seen_wallies_csv(todays_wallie_ids)
 # Downloading each image:
 for wallie in new_wallies:
     wallhaven.download_iamge(wallie)
+
+print("All done! Fresh wallies downloaded!")

@@ -55,20 +55,14 @@ class Wallhaven():
     def get_raw_search_results(self, search_page):
         parameters = self._parameters.copy()
         parameters["page"] = search_page
-        return requests.get(self._search_url,
-                            params=parameters,
-                            headers={"Connection": "close"})
+        return requests.get(self._search_url, params=parameters)
 
     def get_search_result_data(self, search_page):
 
         parameters = self._parameters.copy()
         parameters["page"] = search_page
 
-        return requests.get(self._search_url,
-                            params=parameters,
-                            headers={
-                                "Connection": "close"
-                            }).json()["data"]
+        return requests.get(self._search_url, params=parameters).json()["data"]
 
     def get_wallpaper_paths(self, search_data):
         """Downloads the specified number of wallpapers.
@@ -113,9 +107,7 @@ class Wallhaven():
 
         file_extension = wallie["path"][-4:]
         file_name = wallie["id"]
-        wallie_response = requests.get(wallie["path"],
-                                       params=self._parameters,
-                                       headers={"Connection": "close"})
+        wallie_response = requests.get(wallie["path"], params=self._parameters)
 
         with open(f"{self.desktop}/wallies/{file_name}{file_extension}",
                   "wb") as image_file:
@@ -137,13 +129,14 @@ class Wallhaven():
             Headers = {response.headers}
             """)
 
-            search_data = response.json()["data"]
+            if response.status_code in range(200, 300):
+                search_data = response.json()["data"]
 
-            for wallie in search_data:
-                if wallie["id"] not in self.seen_wallie_ids and len(
-                        new_wallies) < ammount_of_wallies:
-                    new_wallies.append(wallie)
+                for wallie in search_data:
+                    if wallie["id"] not in self.seen_wallie_ids and len(
+                            new_wallies) < ammount_of_wallies:
+                        new_wallies.append(wallie)
 
-            search_page += 1
+                search_page += 1
 
         return new_wallies
