@@ -1,6 +1,6 @@
 """A module to store services for the Wallhaven API."""
 
-import requests, csv, datetime, os, platform
+import requests, csv, datetime, os, platform, time
 
 today = datetime.date.today().isoformat()
 
@@ -126,8 +126,13 @@ class Wallhaven():
 
             print(f"""
             Satus: {response.status_code}
-            Headers = {response.headers}
             """)
+
+            # For some reason their rate limits for search pages are different
+            # than what they have documented, and it does not line up with the
+            # rate limit left over in the headers.
+            if response.status_code == 429:
+                time.sleep(1)
 
             if response.status_code in range(200, 300):
                 search_data = response.json()["data"]
