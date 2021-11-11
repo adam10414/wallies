@@ -112,6 +112,7 @@ class Wallhaven():
         with open(f"{self.desktop}/wallies/{file_name}{file_extension}",
                   "wb") as image_file:
             image_file.write(wallie_response._content)
+        print(f"Downloaded wallie: {file_name}!")
 
     def get_new_wallies(self, ammount_of_wallies):
         """Returns new wallies that this app has not seen before.
