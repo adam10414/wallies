@@ -133,9 +133,9 @@ class Wallhaven():
             # than what they have documented, and it does not line up with the
             # rate limit left over in the headers.
             if response.status_code == 429:
-                time.sleep(1)
+                time.sleep(2)
 
-            if response.status_code in range(200, 300):
+            elif response.status_code in range(200, 300):
                 search_data = response.json()["data"]
 
                 for wallie in search_data:
