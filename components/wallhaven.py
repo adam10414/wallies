@@ -60,23 +60,11 @@ class Wallhaven():
         parameters["page"] = search_page
         return requests.get(self._search_url, params=parameters)
 
-    def get_search_result_data(self, search_page):
-
-        parameters = self._parameters.copy()
-        parameters["page"] = search_page
-
-        return requests.get(self._search_url, params=parameters).json()["data"]
-
     def get_wallpaper_paths(self, search_data):
         """Downloads the specified number of wallpapers.
         search_data: - List returned by self.get_search_result_data"""
 
         return [wallie["path"] for wallie in search_data]
-
-    def get_ids(self, search_data):
-        """Returns a list of IDs from the given search data."""
-
-        return [wallie["id"] for wallie in search_data]
 
     def update_seen_wallies_csv(self, id_list):
         """Updates the wallies csv with a list of IDs and when they were seen.
