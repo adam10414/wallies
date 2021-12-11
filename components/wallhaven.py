@@ -14,6 +14,9 @@ class Wallhaven():
         self.search_page = 1
         self._parameters = {"apikey": api_key, "sorting": "favorites"}
 
+        # This API is ratelmited to 45 requests / minute.
+        self._rate_limit_remaining = 45
+
         if os.path.exists("./components/data/seen_wallies.csv"):
             with open("./components/data/seen_wallies.csv", "r") as csv_file:
                 csv_reader = csv.DictReader(csv_file)
