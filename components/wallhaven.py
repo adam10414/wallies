@@ -58,7 +58,10 @@ class Wallhaven():
     def get_raw_search_results(self, search_page):
         parameters = self._parameters.copy()
         parameters["page"] = search_page
-        return requests.get(self._search_url, params=parameters)
+        response = requests.get(self._search_url, params=parameters)
+        self._rate_limit_remaining = int(
+            response.headers["X-RateLimit-Remaining"])
+        return response
 
     def get_wallpaper_paths(self, search_data):
         """Downloads the specified number of wallpapers.
@@ -106,13 +109,19 @@ class Wallhaven():
         print(f"Downloaded wallie: {file_name}!")
 
     def get_new_wallies(self, ammount_of_wallies):
-        """Returns new wallies that this app has not seen before.
-        ammount_of_wallies: int - not to exceed 15"""
+        """Returns new wallies that this app has not seen before. Will also handle
+        rate limiting depending on the amount of wallies you want to fetch.
+        ammount_of_wallies:int - cannot exceed 44."""
 
         new_wallies = []
         search_page = 1
 
         while len(new_wallies) < ammount_of_wallies:
+
+            # Setting this inside the loop so the timer will self adjust.
+            sleep_time = (60 /
+                          (self._rate_limit_remaining - ammount_of_wallies))
+
             print(f"Searching page {search_page}")
             response = self.get_raw_search_results(search_page)
 
@@ -120,13 +129,7 @@ class Wallhaven():
             Satus: {response.status_code}
             """)
 
-            # For some reason their rate limits for search pages are different
-            # than what they have documented, and it does not line up with the
-            # rate limit left over in the headers.
-            if response.status_code == 429:
-                time.sleep(2)
-
-            elif response.status_code in range(200, 300):
+            if response.status_code in range(200, 300):
                 search_data = response.json()["data"]
 
                 for wallie in search_data:
@@ -135,5 +138,15 @@ class Wallhaven():
                         new_wallies.append(wallie)
 
                 search_page += 1
+
+                print(f"Sleeping for {sleep_time} seconds...")
+                time.sleep(sleep_time)
+
+            else:
+                print(f"Response Status: {response.status_code}")
+                print(f"_rate_limit_remaining: {self._rate_limit_remaining}")
+                print(
+                    f"Response rate limit remaining: {response.headers['X-RateLimit-Remaining']}"
+                )
 
         return new_wallies
