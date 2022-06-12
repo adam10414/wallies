@@ -1,0 +1,10 @@
+.vscode
+.venv
+venv/*
+venv\*
+user-settings/preferences.json
+scratch.py
+components/data
+__pycache__
+.DS_Store*
+scratch*
