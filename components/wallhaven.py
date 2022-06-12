@@ -19,7 +19,10 @@ class Wallhaven():
     def __init__(self, api_key) -> None:
         self._search_url = "https://wallhaven.cc/api/v1/search"
         self.search_page = 1
-        self._parameters = {"apikey": api_key, "sorting": "favorites"}
+        self._parameters = {
+                            "apikey": api_key,
+                            "sorting": "toplist",
+                            "ratios": "16x9"}
 
         # This API is ratelmited to 45 requests / minute.
         self._rate_limit_remaining = 45
@@ -60,8 +63,8 @@ class Wallhaven():
 
         if len(file_list) > 0:
             for file in file_list:
-                os.replace(f"{self.desktop}"+dir_char+"wallies"+dir_char+"{file}",
-                           f"{self.desktop}"+dir_char+"wallies"+dir_char+"archive"+dir_char+"{file}")
+                os.replace(f"{self.desktop}"+dir_char+"wallies"+dir_char+f"{file}",
+                           f"{self.desktop}"+dir_char+"wallies"+dir_char+"archive"+dir_char+f"{file}")
 
     def get_raw_search_results(self, search_page):
         parameters = self._parameters.copy()
