@@ -20,15 +20,20 @@ class Wallhaven():
         self._search_url = "https://wallhaven.cc/api/v1/search"
         self.search_page = 1
         self._parameters = {
-                            "apikey": api_key,
-                            "sorting": "toplist",
-                            "ratios": "16x9"}
+            "apikey": api_key,
+            "sorting": "toplist",
+            "ratios": "16x9",
+            "atleast": "3840x2160"
+        }
 
         # This API is ratelmited to 45 requests / minute.
         self._rate_limit_remaining = 45
 
-        if os.path.exists("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv"):
-            with open("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv", "r") as csv_file:
+        if os.path.exists("." + dir_char + "components" + dir_char + "data" +
+                          dir_char + "seen_wallies.csv"):
+            with open(
+                    "." + dir_char + "components" + dir_char + "data" +
+                    dir_char + "seen_wallies.csv", "r") as csv_file:
                 csv_reader = csv.DictReader(csv_file)
 
                 self._seen_wallie_data = [row for row in csv_reader]
@@ -49,22 +54,26 @@ class Wallhaven():
                 os.path.join(os.environ['USERPROFILE']), 'desktop')
 
         # Creating the wallies folder, or using the one that's already there.
-        if not os.path.exists(f"{self.desktop}"+dir_char+"wallies"):
-            os.mkdir(f"{self.desktop}"+dir_char+"wallies")
+        if not os.path.exists(f"{self.desktop}" + dir_char + "wallies"):
+            os.mkdir(f"{self.desktop}" + dir_char + "wallies")
 
         # Creating an archive folder so data is not lost.
-        if not os.path.exists(f"{self.desktop}"+dir_char+"wallies"+dir_char+"archive"):
-            os.mkdir(f"{self.desktop}"+dir_char+"wallies"+dir_char+"archive")
+        if not os.path.exists(f"{self.desktop}" + dir_char + "wallies" +
+                              dir_char + "archive"):
+            os.mkdir(f"{self.desktop}" + dir_char + "wallies" + dir_char +
+                     "archive")
 
         # Moving the current set of files to the archive folder.
-        file_list = os.listdir(f"{self.desktop}"+dir_char+"wallies")
+        file_list = os.listdir(f"{self.desktop}" + dir_char + "wallies")
         if "archive" in file_list:
             file_list.remove("archive")
 
         if len(file_list) > 0:
             for file in file_list:
-                os.replace(f"{self.desktop}"+dir_char+"wallies"+dir_char+f"{file}",
-                           f"{self.desktop}"+dir_char+"wallies"+dir_char+"archive"+dir_char+f"{file}")
+                os.replace(
+                    f"{self.desktop}" + dir_char + "wallies" + dir_char +
+                    f"{file}", f"{self.desktop}" + dir_char + "wallies" +
+                    dir_char + "archive" + dir_char + f"{file}")
 
     def get_raw_search_results(self, search_page):
         parameters = self._parameters.copy()
@@ -91,18 +100,24 @@ class Wallhaven():
                                ] + self._seen_wallie_data
 
         # Creating the file if it doesn't already exist.
-        if not os.path.exists("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv"):
-            os.mkdir("."+dir_char+"components"+dir_char+"data")
-            
-            with open("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv", "w") as csv_file:
+        if not os.path.exists("." + dir_char + "components" + dir_char +
+                              "data" + dir_char + "seen_wallies.csv"):
+            os.mkdir("." + dir_char + "components" + dir_char + "data")
+
+            with open(
+                    "." + dir_char + "components" + dir_char + "data" +
+                    dir_char + "seen_wallies.csv", "w") as csv_file:
                 writer = csv.DictWriter(csv_file, fieldnames=["id", "seen_on"])
                 writer.writeheader()
                 for wallie in todays_seen_wallies:
                     writer.writerow(wallie)
 
         # If it does already exist, then just add rows to it.
-        if os.path.exists("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv"):
-            with open("."+dir_char+"components"+dir_char+"data"+dir_char+"seen_wallies.csv", "w") as csv_file:
+        if os.path.exists("." + dir_char + "components" + dir_char + "data" +
+                          dir_char + "seen_wallies.csv"):
+            with open(
+                    "." + dir_char + "components" + dir_char + "data" +
+                    dir_char + "seen_wallies.csv", "w") as csv_file:
                 writer = csv.DictWriter(csv_file, fieldnames=["id", "seen_on"])
                 writer.writeheader()
                 for wallie in todays_seen_wallies:
@@ -126,8 +141,9 @@ class Wallhaven():
             wallie_response = requests.get(wallie["path"],
                                            params=self._parameters)
 
-        with open(f"{self.desktop}"+dir_char+"wallies"+dir_char+f"{file_name}{file_extension}",
-                  "wb") as image_file:
+        with open(
+                f"{self.desktop}" + dir_char + "wallies" + dir_char +
+                f"{file_name}{file_extension}", "wb") as image_file:
             image_file.write(wallie_response._content)
             print(f"Downloaded wallie: {file_name}!")
 
